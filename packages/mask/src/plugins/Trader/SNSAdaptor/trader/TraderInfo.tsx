@@ -9,7 +9,7 @@ import { isDashboardPage } from '@masknet/shared-base'
 import { multipliedBy, NetworkPluginID, formatBalance } from '@masknet/web3-shared-base'
 import { useI18N } from '../../../../utils'
 import classnames from 'classnames'
-import { BestTradeIcon, TriangleWarning } from '@masknet/icons'
+import { Icon } from '@masknet/icons'
 import { useAsyncRetry } from 'react-use'
 import { PluginTraderRPC } from '../../messages'
 import { TradeProvider } from '@masknet/public-api'
@@ -171,13 +171,13 @@ export const TraderInfo = memo<TraderInfoProps>(({ trade, gasPrice, isBest, onCl
                 ),
                 endAdornment: (
                     <>
-                        {isBest ? <BestTradeIcon className={classes.best} /> : null}
+                        {isBest ? <Icon type="bestTrade" className={classes.best} /> : null}
                         {isGreatThanSlippageSetting ? (
                             <Typography className={classes.warningText}>
                                 {t('plugin_trader_price_image_value', {
                                     percent: formatPercentage(trade.value.priceImpact),
                                 })}
-                                <TriangleWarning style={{ width: 20, height: 20 }} />
+                                <Icon type="triangleWarning" size={20} />
                             </Typography>
                         ) : null}
                     </>
