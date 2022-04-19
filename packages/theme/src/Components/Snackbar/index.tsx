@@ -1,29 +1,29 @@
-import { forwardRef, useRef, memo, useCallback } from 'react'
-import { keyframes } from 'tss-react'
+import { Icon } from '@masknet/icons'
+import { Close as CloseIcon } from '@mui/icons-material'
+import DoneIcon from '@mui/icons-material/Done'
+import InfoIcon from '@mui/icons-material/Info'
+import WarningIcon from '@mui/icons-material/Warning'
+import { IconButton, Typography } from '@mui/material'
+import classnames from 'classnames'
 import {
+    OptionsObject,
+    SnackbarAction,
+    SnackbarContent,
+    SnackbarKey,
+    SnackbarMessage,
     SnackbarProvider,
     SnackbarProviderProps,
-    SnackbarKey,
     useSnackbar,
     VariantType,
-    SnackbarMessage,
-    SnackbarContent,
-    SnackbarAction,
-    OptionsObject,
 } from 'notistack'
-import { Typography, IconButton } from '@mui/material'
-import classnames from 'classnames'
-import { Close as CloseIcon } from '@mui/icons-material'
-import WarningIcon from '@mui/icons-material/Warning'
-import InfoIcon from '@mui/icons-material/Info'
-import DoneIcon from '@mui/icons-material/Done'
-import { LoadingIcon, RiskIcon } from '@masknet/icons'
-import { makeStyles, useStylesExtends } from '../../UIHelper'
+import { forwardRef, memo, useCallback, useRef } from 'react'
+import { keyframes } from 'tss-react'
 import { MaskColorVar } from '../../CSSVariables'
+import { makeStyles, useStylesExtends } from '../../UIHelper'
 
-export { PopupSnackbarProvider, usePopupCustomSnackbar } from './PopupSnackbar'
 export { SnackbarProvider, useSnackbar } from 'notistack'
-export type { VariantType, OptionsObject, SnackbarKey, SnackbarMessage } from 'notistack'
+export type { OptionsObject, SnackbarKey, SnackbarMessage, VariantType } from 'notistack'
+export { PopupSnackbarProvider, usePopupCustomSnackbar } from './PopupSnackbar'
 
 interface StyleProps {
     offsetY?: number
@@ -178,7 +178,7 @@ export interface CustomSnackbarContentProps {
 const IconMap: Record<VariantType, React.ReactNode> = {
     default: <InfoIcon color="inherit" />,
     success: <DoneIcon color="inherit" />,
-    error: <RiskIcon />,
+    error: <Icon type="risk" />,
     warning: <WarningIcon color="inherit" />,
     info: <InfoIcon color="inherit" />,
 }
@@ -186,7 +186,7 @@ const IconMap: Record<VariantType, React.ReactNode> = {
 export const CustomSnackbarContent = forwardRef<HTMLDivElement, CustomSnackbarContentProps>((props, ref) => {
     const classes = useStylesExtends(useStyles({ offsetY: props.offsetY }), props)
     const snackbar = useSnackbar()
-    const loadingIcon = <LoadingIcon color="inherit" className={classes.spinning} />
+    const loadingIcon = <Icon type="loading" className={classes.spinning} />
     const variantIcon = props.processing ? loadingIcon : props.variant ? IconMap[props.variant] : null
     let renderedAction: React.ReactNode = (
         <IconButton className={classes.closeButton} onClick={() => snackbar.closeSnackbar(props.id)}>
