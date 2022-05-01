@@ -153,7 +153,7 @@ export type IconType =
     | 'marketTrend'
     | 'maskBox'
     | 'petIcon'
-    | 'poolTogetherIcon'
+    | 'poolTogether'
     | 'savings'
     | 'securityChecker'
     | 'snapshot'
@@ -561,7 +561,7 @@ export const marketsClaimIcon = new URL('./plugins/MarketsClaim.svg', import.met
 export const marketTrendIcon = new URL('./plugins/MarketTrend.svg', import.meta.url).href
 export const maskBoxIcon = new URL('./plugins/MaskBox.svg', import.meta.url).href
 export const petIconIcon = new URL('./plugins/PetIcon.svg', import.meta.url).href
-export const poolTogetherIconIcon = new URL('./plugins/PoolTogetherIcon.png', import.meta.url).href
+export const poolTogetherIcon = new URL('./plugins/PoolTogether.png', import.meta.url).href
 export const savingsIcon = new URL('./plugins/Savings.svg', import.meta.url).href
 export const securityCheckerIcon = new URL('./plugins/SecurityChecker.svg', import.meta.url).href
 export const snapshotIcon = new URL('./plugins/Snapshot.svg', import.meta.url).href
@@ -793,7 +793,7 @@ const icons = {
     marketTrend: marketTrendIcon,
     maskBox: maskBoxIcon,
     petIcon: petIconIcon,
-    poolTogetherIcon: poolTogetherIconIcon,
+    poolTogether: poolTogetherIcon,
     savings: savingsIcon,
     securityChecker: securityCheckerIcon,
     snapshot: snapshotIcon,
