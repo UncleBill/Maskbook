@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import glob from 'glob-promise'
 import { watch } from 'gulp'
-import { camelCase } from 'lodash-unified'
+import { camelCase, capitalize } from 'lodash-unified'
 import * as path from 'path'
 import { prettier, ROOT_PATH, watchTask } from '../utils'
 
@@ -17,7 +17,7 @@ function svg2jsx(code: string) {
     return (
         code
             .trim()
-            // set both height and width to 100%, let svg's container, aka <Icon />, decide the size
+            // set both height and width to 100%, let svg's container, aka <Icon />, decide the size.
             // We don't use g flag here, because we only want to change the first attribute of each
             .replace(/\b(height)=('|")\d+\2/, '')
             .replace(/\b(width)=('|")\d+\2/, '')
@@ -28,39 +28,65 @@ function svg2jsx(code: string) {
 }
 
 const responseExtRe = /\.(light|dim|dark)$/
-const responseNameRe = /(.*)\.(light|dim|dark)$/
+const responsiveNameRe = /(.*)\.(light|dim|dark)$/
+function getIconName(fileName: string) {
+    const name = fileName.match(responsiveNameRe)
+        ? fileName.replace(responsiveNameRe, (_, m1, m2) => {
+              if (m2 === 'light') return camelCase(m1)
+              return `${camelCase(m1)}.${m2}`
+          })
+        : camelCase(fileName)
+    return name
+}
+function getVarName(fileName: string) {
+    const matched = fileName.match(responsiveNameRe)
+    const name = matched ? camelCase(matched[0]) : camelCase(fileName)
+    return capitalize(name)
+}
+
+type ThemeVariant = 'dark' | 'dim' | 'light'
+const ThemeIndex: Record<ThemeVariant, 0 | 1 | 2> = {
+    dark: 0,
+    dim: 1,
+    light: 2,
+}
+
 export async function generateIcons() {
-    const nameMap: Record<string, string> = {}
     const iconsWithDynamicColor: string[] = []
     const lines: string[] = []
     const indexNames = new Set<string>()
     const iconVarNames = new Map<string, string>()
     const typeNames = new Set<string>()
 
+    const iconJsxMap = new Map<string, string | (string | undefined)[]>()
+    const iconUrlMap = new Map<string, string | (string | undefined)[]>()
+
+    function addIcon(name: string, type: ThemeVariant, jsx: string | undefined, url: string | undefined) {
+        const existed = iconJsxMap.get(name)
+        const index = ThemeIndex[type]
+        if (existed && jsx && existed !== jsx) {
+            const arr = [undefined, undefined, existed as string]
+            iconJsxMap.set(name, arr)
+        }
+    }
+
     const filePaths = await glob.promise(pattern, { cwd: ROOT_PATH, nodir: true })
     filePaths.forEach((filePath) => {
         const parsed = path.parse(filePath)
         const fileName = parsed.base
-        let varName = ''
-        const name = parsed.name.match(responseNameRe)
-            ? parsed.name.replace(responseNameRe, (matchedName, m1, m2) => {
-                  varName = camelCase(matchedName)
-                  if (m2 === 'light') return camelCase(m1)
-                  return `${camelCase(m1)}.${m2}`
-              })
-            : camelCase(parsed.name)
+        const varName = getVarName(parsed.name)
+        const name = getIconName(parsed.name)
         indexNames.add(name)
-        iconVarNames.set(name, `${varName || camelCase(name)}Icon`)
-        if (name.match(responseExtRe)) {
-            typeNames.add(name.replace(responseExtRe, ''))
-        } else {
-            typeNames.add(name)
-        }
-        nameMap[name] = fileName
+        iconVarNames.set(name, varName)
+        // if (name.match(responseExtRe)) {
+        //     typeNames.add(name.replace(responseExtRe, ''))
+        // } else {
+        //     typeNames.add(name)
+        // }
         const isSvg = parsed.ext.toLowerCase() === '.svg'
         const code = isSvg ? fs.readFileSync(filePath, 'utf8') : ''
         if (isSvg && hasCurrentColor(code)) {
-            iconsWithDynamicColor.push(name)
+            // iconsWithDynamicColor.push(name)
             lines.push(`export const ${iconVarNames.get(name)} = ${svg2jsx(code)}`)
         } else {
             const importPath = path.relative(iconRoot, path.join(ROOT_PATH, filePath))

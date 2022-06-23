@@ -1,3 +1,4 @@
+import { createIcon } from './Icon'
 export type IconType =
     | 'blocto'
     | 'discord'
@@ -644,6 +645,9 @@ export const iconsWithDynamicColor = [
     'search',
     'currency',
 ]
+
+export const Blocto = createIcon({ iconUrl: bloctoIcon })
+const s = <Blocto size={10} color="green" />
 
 const icons = {
     blocto: bloctoIcon,
