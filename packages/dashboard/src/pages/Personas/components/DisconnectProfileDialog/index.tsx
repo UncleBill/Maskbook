@@ -7,11 +7,6 @@ import { useState } from 'react'
 import { Icon } from '@masknet/icons'
 
 const useStyles = makeStyles()((theme) => ({
-    svg: {
-        [theme.breakpoints.down('xs')]: {
-            fontSize: 64,
-        },
-    },
     personaTextZone: {
         margin: theme.spacing(4, 0),
         fontSize: '13px',
@@ -84,7 +79,7 @@ export const DisconnectProfileDialog = ({
                 {currentStep === steps.action && profileIdentifier && (
                     <Box>
                         <Box textAlign="center" py={2}>
-                            <Icon type="warning" className={classes.svg} color={theme.palette.warning.main} />
+                            <Icon type="warning" size={64} color={theme.palette.warning.main} />
                         </Box>
                         <Typography variant="caption" sx={{ color: MaskColorVar.textPrimary, fontSize: 13, mr: 1 }}>
                             {t.personas_disconnect_warning()}

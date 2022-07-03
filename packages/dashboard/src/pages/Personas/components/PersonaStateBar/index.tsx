@@ -14,13 +14,6 @@ const useStyles = makeStyles()((theme) => ({
         borderRadius: '50%',
         border: `1px solid ${MaskColorVar.blue.alpha(0.1)}`,
     },
-    arrow: {
-        fill: 'none',
-        stroke: MaskColorVar.primary,
-        [theme.breakpoints.down('xs')]: {
-            fontSize: 28,
-        },
-    },
     nickname: {
         margin: theme.spacing(0, 1.5),
         lineHeight: 1.375,
@@ -50,11 +43,7 @@ export const PersonaStateBar = memo<PersonaStateBarProps>(({ nickname, toggleDra
                 </Typography>
             </Stack>
             <IconButton onClick={toggleDrawer} size="small" className={classes.iconButton}>
-                {drawerOpen ? (
-                    <Icon type="arrowUpRound" className={classes.arrow} />
-                ) : (
-                    <Icon type="arrowDownRound" className={classes.arrow} />
-                )}
+                <Icon type={drawerOpen ? 'arrowUpRound' : 'arrowDownRound'} size={28} color={MaskColorVar.primary} />
             </IconButton>
         </Box>
     )

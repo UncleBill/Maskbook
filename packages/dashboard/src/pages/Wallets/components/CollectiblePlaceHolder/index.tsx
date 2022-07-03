@@ -5,7 +5,6 @@ import { WalletIcon } from '@masknet/shared'
 import { Box } from '@mui/material'
 import { useNetworkDescriptor } from '@masknet/plugin-infra/web3'
 import { NetworkPluginID } from '@masknet/web3-shared-base'
-import { useDashboardI18N } from '../../../../locales'
 
 const useStyles = makeStyles()((theme) => ({
     container: {
@@ -37,10 +36,7 @@ const useStyles = makeStyles()((theme) => ({
         width: 20,
     },
     miniMask: {
-        [theme.breakpoints.down('xs')]: {
-            fontSize: 48,
-            opacity: 0.5,
-        },
+        opacity: 0.5,
     },
 }))
 
@@ -50,7 +46,6 @@ export interface CollectiblePlaceHolderProps {
 
 export const CollectiblePlaceholder = memo<CollectiblePlaceHolderProps>(({ chainId }) => {
     const { classes } = useStyles()
-    const t = useDashboardI18N()
     const networkDescriptor = useNetworkDescriptor(NetworkPluginID.PLUGIN_EVM, chainId)
 
     return (
@@ -59,7 +54,7 @@ export const CollectiblePlaceholder = memo<CollectiblePlaceHolderProps>(({ chain
                 <WalletIcon mainIcon={networkDescriptor?.icon} size={20} />
             </Box>
             <div className={classes.placeholder}>
-                <Icon type="miniMask" />
+                <Icon type="miniMask" size={48} className={classes.miniMask} />
             </div>
         </div>
     )

@@ -104,9 +104,8 @@ const brands: Record<string, React.ReactNode> = {
     'https://discord.gg/4SVXvj7': <Icon type="discord" />,
 }
 
-const MaskIcon = () => (process.env.NODE_ENV === 'production' ? <Icon type="maskBlue" /> : <Icon type="maskGrey" />)
-const MaskTitleIcon = () =>
-    process.env.NODE_ENV === 'production' ? <Icon type="maskText" /> : <Icon type="maskTextNightly" />
+const MaskIcon = () => <Icon type={process.env.NODE_ENV === 'production' ? 'maskBlue' : 'maskGrey'} />
+const MaskTitleIcon = () => <Icon type={process.env.NODE_ENV === 'production' ? 'maskText' : 'maskTextNightly'} />
 
 export function About() {
     const { classes } = useStyles()
