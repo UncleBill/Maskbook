@@ -29,7 +29,16 @@ export async function getBuildInfo(): Promise<BuildInfoFile> {
         }
     }
 }
-export let env: BuildInfoFile
+export let env: BuildInfoFile = {
+     BUILD_DATE: '2023-11-16',
+     VERSION: 'v2.23.7',
+     COMMIT_HASH: '000000',
+     COMMIT_DATE: '2023-11-16',
+     BRANCH_NAME: 'dev',
+     DIRTY: true,
+     // REACT_DEVTOOLS_EDITOR_URL: string
+     channel: 'beta'
+}
 const [_promise, resolve] = defer<void>()
 export const buildInfoReadyPromise = _promise
 export async function setupBuildInfo(): Promise<void> {

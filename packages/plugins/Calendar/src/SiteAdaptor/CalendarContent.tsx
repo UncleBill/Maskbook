@@ -1,5 +1,4 @@
-/* cspell: disable */
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Tab } from '@mui/material'
 import { TabContext, TabPanel } from '@mui/lab'
 import { safeUnreachable } from '@masknet/kit'
