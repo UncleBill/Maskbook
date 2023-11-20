@@ -142,7 +142,7 @@ export function EventList({ list, isLoading, empty, dateString }: EventListProps
                                 {list[key].map((v) => (
                                     <div
                                         className={classes.eventCard}
-                                        key={v.eventTitle}
+                                        key={v.event_url}
                                         onClick={() => {
                                             window.open(v.event_url)
                                         }}>
